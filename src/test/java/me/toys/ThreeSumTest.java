@@ -14,6 +14,6 @@ public class ThreeSumTest {
         List<List<Integer>> expects = new ArrayList<>();
         expects.add(Arrays.asList(-1, 0, 1));
         expects.add(Arrays.asList(-1, -1, 2));
-        Assert.assertEquals(expects, threeSum.threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        Assert.assertEquals(expects, threeSum.threeSum(new int[]{-1, 0, 1, 2, -1, 4}));
     }
 }

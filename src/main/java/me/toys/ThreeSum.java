@@ -12,28 +12,48 @@ import java.util.List;
 // pointer to the next element; 2.2 -> if the sum is larger than the target, than move the behind pointer to the
 // previous element
 // 3. end loop until the two pointer meets, and record all the results
+// 4. deduplication: 4.1-> Loop the array to get the target, the element of looped is the min value of 3 numbers, so
+// when meet positive number, break, the largest index we need to loop is len(nums)-3; 4.2-> when moving the pointers,
+// if meet the same number, skip that number until find a different number
 public class ThreeSum {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> outputs = new ArrayList<>();
         Arrays.sort(nums);
-        for (int i=0; i<nums.length; i++) {
-            int smallIndex = 0;
+        for (int i=0; i<nums.length - 2; i++) {
+            if (nums[i] > 0) {
+                break;
+            }
+            if (i>0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int smallIndex = i + 1;
             int largeIndex = nums.length - 1;
+            if (i == nums.length - 1) {
+                largeIndex = nums.length - 2;
+            }
             int target = 0 - nums[i];
-            int[] newNums = nums.
-            while (smallIndex != largeIndex) {
+            while (smallIndex < largeIndex) {
                 if (nums[smallIndex] + nums[largeIndex] < target) {
                     smallIndex += 1;
-                    if (smallIndex == i) {
+                    while(smallIndex < largeIndex && nums[smallIndex] == nums[smallIndex - 1]) {
                         smallIndex += 1;
                     }
+
                 } else if (nums[smallIndex] + nums[largeIndex] > target) {
                     largeIndex -= 1;
-                    if (largeIndex == i) {
+                    while(largeIndex > smallIndex && nums[largeIndex] == nums[largeIndex + 1]) {
                         largeIndex -= 1;
                     }
                 } else {
                     outputs.add(Arrays.asList(nums[smallIndex], nums[largeIndex], nums[i]));
+                    smallIndex += 1;
+                    largeIndex -= 1;
+                    while(smallIndex < largeIndex && nums[smallIndex] == nums[smallIndex - 1]) {
+                        smallIndex += 1;
+                    }
+                    while(largeIndex > smallIndex && nums[largeIndex] == nums[largeIndex + 1]) {
+                        largeIndex -= 1;
+                    }
                 }
             }
         }
